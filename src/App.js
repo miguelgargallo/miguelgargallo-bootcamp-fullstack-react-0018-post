@@ -24,6 +24,7 @@ export default function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     console.log("crear nota");
     const noteToAddToState = {
       title: newNote,
@@ -31,9 +32,12 @@ export default function App() {
       userId: 1
     };
 
-    axios.post("https://jsonplaceholder.typicode.com/posts", noteToAddToState);
-
-    //  setNotes((prevNotes) => prevNotes.concat(noteToAddToState));
+    axios
+      .post("https://jsonplaceholder.typicode.com/posts", noteToAddToState)
+      .then((response) => {
+        const { data } = response;
+        setNotes((prevNotes) => prevNotes.concat(data));
+      });
     setNewNote("");
   };
 
