@@ -1,9 +1,7 @@
 import "./styles.css";
 import { useEffect, useState } from "react";
 import { Note } from "./Note.js";
-import axios from "axios";
-import { getAllNotes } from "./servicios/notes/getAllNotes";
-import { createNote } from "./servicios/notes/createNote";
+import { create as createNote, getAll as getAllNotes } from "./servicios/notes";
 
 export default function App() {
   const [notes, setNotes] = useState([]);
@@ -33,9 +31,13 @@ export default function App() {
       userId: 1
     };
 
-    createNote(noteToAddToState).then((newNote) => {
-      setNotes((prevNotes) => prevNotes.concat(data));
-    });
+    createNote(noteToAddToState)
+      .then((newNote) => {
+        setNotes((prevNotes) => prevNotes.concat(newNote));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
 
     setNewNote("");
   };
