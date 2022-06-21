@@ -38,6 +38,7 @@ export default function App() {
         const { data } = response;
         setNotes((prevNotes) => prevNotes.concat(data));
       });
+
     setNewNote("");
   };
 
