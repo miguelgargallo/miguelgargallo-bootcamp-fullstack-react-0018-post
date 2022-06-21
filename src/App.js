@@ -2,6 +2,8 @@ import "./styles.css";
 import { useEffect, useState } from "react";
 import { Note } from "./Note.js";
 import axios from "axios";
+import { getAllNotes } from "./servicios/notes/getAllNotes";
+import { createNote } from "./servicios/notes/createNote";
 
 export default function App() {
   const [notes, setNotes] = useState([]);
@@ -11,9 +13,8 @@ export default function App() {
   useEffect(() => {
     console.log("useEffect");
     setLoading(true);
-    axios.get("https://jsonplaceholder.typicode.com/posts").then((response) => {
-      const { data } = response;
-      setNotes(data);
+    getAllNotes().then((notes) => {
+      setNotes(notes);
       setLoading(false);
     });
   }, []);
@@ -32,12 +33,9 @@ export default function App() {
       userId: 1
     };
 
-    axios
-      .post("https://jsonplaceholder.typicode.com/posts", noteToAddToState)
-      .then((response) => {
-        const { data } = response;
-        setNotes((prevNotes) => prevNotes.concat(data));
-      });
+    createNote(noteToAddToState).then((newNote) => {
+      setNotes((prevNotes) => prevNotes.concat(data));
+    });
 
     setNewNote("");
   };
@@ -48,11 +46,11 @@ export default function App() {
     <div>
       <h1>Posts</h1>
       {loading ? "Cargando..." : ""}
-      <li>
+      <ol>
         {notes.map((note) => (
           <Note key={note.id} {...note} />
         ))}
-      </li>
+      </ol>
 
       <form onSubmit={handleSubmit}>
         <input type="text" onChange={handleChange} value={newNote} />

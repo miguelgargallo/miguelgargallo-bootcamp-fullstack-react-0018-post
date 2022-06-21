@@ -1,11 +1,11 @@
 export const Note = ({ id = [], title = [], body = [] }) => {
   return (
-    <li>
+    <ol>
       <div>
         <p>{id}</p>
         <p>{title}</p>
         <p>{body}</p>
       </div>
-    </li>
+    </ol>
   );
 };
